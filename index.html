@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="sk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Svadobný Deň | Terka a Miro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            background-color: #fdfaf6;
+            color: #4a4a4a;
+            font-family: 'Manrope', sans-serif;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Playfair Display', serif;
+            color: #333;
+        }
+
+        .accent-color {
+            color: #502D16;
+        }
+
+        .bg-accent {
+            background-color: #502D16;
+        }
+
+        .timeline-item {
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -31px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #fdfaf6;
+            border: 4px solid #502D16;
+            /* Brown border for all items by default */
+            z-index: 1;
+        }
+
+        .timeline-item.past::before {
+            border-color: #D3D3D3;
+            /* Pastel grey border for past events */
+            background-color: #fdfaf6;
+        }
+
+        .timeline-item.current::before {
+            border-color: #A06A32;
+            /* Lighter brown/gold border for the current event */
+            background-color: #fdfaf6;
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .accordion-button svg {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .accordion-button.open svg {
+            transform: rotate(180deg);
+        }
+
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #502D16;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+    <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-4xl">
+
+        <header class="text-center py-12">
+            <h1 class="text-4xl md:text-6xl font-bold tracking-tight">Terka a Miro</h1>
+            <p class="mt-4 text-lg md:text-xl accent-color">19. september 2025</p>
+            <div class="w-24 h-px bg-gray-200 mx-auto my-8"></div>
+            <p class="max-w-2xl mx-auto text-base text-gray-600">Milí priatelia a rodina, vitajte na našom svadobnom
+                dni! S radosťou sme pre vás pripravili tento harmonogram, aby ste sa cítili čo najlepšie a vedeli, čo
+                nás čaká. Tešíme sa na spoločné chvíle a na to, že tento deň prežijeme spolu s vami.</p>
+        </header>
+
+        <section id="miesta" class="my-12">
+            <h2 class="text-3xl font-bold text-center mb-8">Miesta konania</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+                    <h3 class="text-2xl font-bold mb-2">Svadobný obrad</h3>
+                    <p class="text-lg font-semibold">Chrám sv. Izaiáša</p>
+                    <p class="text-gray-600 mb-4">Bardejovská 2027, 080 06 Ľubotice</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Chrám+sv.+Izaiáša,+Bardejovská+2027,+080+06+Ľubotice"
+                        target="_blank"
+                        class="inline-block bg-accent text-white font-semibold py-2 px-4 rounded-md hover:bg-opacity-90 transition-colors">Zobraziť
+                        na mape</a>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
+                    <h3 class="text-2xl font-bold mb-2">Svadobná hostina</h3>
+                    <p class="text-lg font-semibold">Šarišská Stodola</p>
+                    <p class="text-gray-600 mb-4">Veľký Šariš 082, 21 Veľký Šariš</p>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Šarišská+Stodola,+Veľký+Šariš"
+                        target="_blank"
+                        class="inline-block bg-accent text-white font-semibold py-2 px-4 rounded-md hover:bg-opacity-90 transition-colors">Zobraziť
+                        na mape</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="casova-os" class="my-16">
+            <h2 class="text-3xl font-bold text-center mb-12">Časová os dňa</h2>
+            <div class="relative pl-8 border-l-2 border-gray-200">
+                <div class="mb-10 ml-4 relative timeline-item" data-time="14:40">
+                    <p class="text-sm font-semibold accent-color">14:40</p>
+                    <h4 class="text-xl font-bold">Príchod hostí k obradu</h4>
+                </div>
+                <div class="mb-10 ml-4 relative timeline-item" data-time="15:00">
+                    <p class="text-sm font-semibold accent-color">15:00</p>
+                    <h4 class="text-xl font-bold">Svadobný obrad</h4>
+                </div>
+                <div class="mb-10 ml-4 relative timeline-item" data-time="15:50">
+                    <p class="text-sm font-semibold accent-color">15:50</p>
+                    <h4 class="text-xl font-bold">Gratulácie</h4>
+                </div>
+                <div class="mb-10 ml-4 relative timeline-item" data-time="16:30">
+                    <p class="text-sm font-semibold accent-color">16:30</p>
+                    <h4 class="text-xl font-bold">Presun na miesto hostiny</h4>
+                </div>
+                <div class="mb-10 ml-4 relative timeline-item" data-time="17:00">
+                    <p class="text-sm font-semibold accent-color">17:00</p>
+                    <h4 class="text-xl font-bold">Usadenie hostí a predjedlo</h4>
+                </div>
+                <div class="mb-10 ml-4 relative timeline-item" data-time="17:30">
+                    <p class="text-sm font-semibold accent-color">17:30</p>
+                    <h4 class="text-xl font-bold">Mladomanželský a rodičovský tanec</h4>
+                </div>
+                <div class="mb-10 ml-4 relative timeline-item" data-time="17:40">
+                    <p class="text-sm font-semibold accent-color">17:40</p>
+                    <h4 class="text-xl font-bold">Svadobná večera</h4>
+                </div>
+                <div class="mb-10 ml-4 relative timeline-item" data-time="18:30">
+                    <p class="text-sm font-semibold accent-color">18:30</p>
+                    <h4 class="text-xl font-bold">Spoločné fotenie a tanečná zábava</h4>
+                </div>
+                <div class="mb-10 ml-4 relative timeline-item" data-time="21:00">
+                    <p class="text-sm font-semibold accent-color">21:00</p>
+                    <h4 class="text-xl font-bold">Krájanie svadobnej torty</h4>
+                </div>
+                <div class="mb-10 ml-4 relative timeline-item" data-time="22:00">
+                    <p class="text-sm font-semibold accent-color">22:00</p>
+                    <h4 class="text-xl font-bold">Bufet</h4>
+                </div>
+                <div class="mb-10 ml-4 relative timeline-item" data-time="23:00">
+                    <p class="text-sm font-semibold accent-color">23:00</p>
+                    <h4 class="text-xl font-bold">Čepčenie</h4>
+                </div>
+                <div class="mb-10 ml-4 relative timeline-item" data-time="23:30">
+                    <p class="text-sm font-semibold accent-color">23:30</p>
+                    <h4 class="text-xl font-bold">Redový tanec</h4>
+                </div>
+                <div class="mb-10 ml-4 relative timeline-item" data-time="00:00">
+                    <p class="text-sm font-semibold accent-color">00:00</p>
+                    <h4 class="text-xl font-bold">Pokračovanie tanečnej zábavy</h4>
+                </div>
+                <div class="ml-4 relative timeline-item" data-time="03:00">
+                    <p class="text-sm font-semibold accent-color">03:00</p>
+                    <h4 class="text-xl font-bold">Koniec svadby</h4>
+                </div>
+            </div>
+        </section>
+
+        <section id="info" class="my-16">
+            <h2 class="text-3xl font-bold text-center mb-8">Praktické informácie</h2>
+            <div class="space-y-4 max-w-2xl mx-auto">
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <button class="accordion-button w-full text-left p-4 flex justify-between items-center font-semibold text-lg hover:bg-gray-50 focus:outline-none">
+                        <span>Doprava a parkovanie</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="p-4 border-t border-gray-200 text-gray-700">
+                            <h4 class="font-bold mb-2">Parkovanie:</h4>
+                            <p class="mb-4">Prosíme, aby hostia, ktorí prídu autom, parkovali na začiatku parkoviska pri
+                                Šarišskej stodole. Pri Chráme sv. Izaiáša je tiež možnosť parkovania, ale s obmedzenou
+                                kapacitou.</p>
+                            <h4 class="font-bold mb-2">Autobusová doprava:</h4>
+                            <p>Pre hostí bude zabezpečený autobus, ktorý ich zavezie od Šarišskej stodoly k chrámu a
+                                naspäť. <strong>Autobus vyrazí k chrámu o 14:30.</strong></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <button class="accordion-button w-full text-left p-4 flex justify-between items-center font-semibold text-lg hover:bg-gray-50 focus:outline-none">
+                        <span>Ubytovanie</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="p-4 border-t border-gray-200 text-gray-700 space-y-3">
+                            <p>V Šarišskej stodole sú k dispozícii izby pre ubytovaných hostí.</p>
+                            <p><strong>Ubytovanie je možné od 11:00.</strong></p>
+                            <p><strong>Cena:</strong> 27 € na osobu.</p>
+                            <p><strong>Platba:</strong> Platba bude prebiehať priamo na mieste s majiteľmi Šarišskej
+                                stodoly.</p>
+                            <p><strong>Kľúče a rozpis izieb:</strong> Kľúče k izbám budú čakať priamo v izbách. Rozpis
+                                izieb pre hostí bude k dispozícii pri vstupe do sekcie ubytovania.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <button class="accordion-button w-full text-left p-4 flex justify-between items-center font-semibold text-lg hover:bg-gray-50 focus:outline-none">
+                        <span>Darčeky</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="p-4 border-t border-gray-200 text-gray-700">
+                            <p>Vaša prítomnosť na našej svadbe je pre nás najväčším darom. Ak by ste nás však chceli
+                                obdarovať, najviac potešíme príspevkom na našu spoločnú budúcnosť.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                    <button class="accordion-button w-full text-left p-4 flex justify-between items-center font-semibold text-lg hover:bg-gray-50 focus:outline-none">
+                        <span>Fotografie</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="p-4 border-t border-gray-200 text-gray-700">
+                            <p class="mb-4">Radi by sme videli fotografie z vášho pohľadu! Pridajte, prosím, vaše fotky
+                                zo svadby do nášho zdieľaného albumu, aby sme si mohli spoločne pripomenúť tento krásny
+                                deň.</p>
+                            <a href="javascript:void(0)" title="Odkaz zatiaľ nie je aktívny"
+                                class="inline-block bg-accent text-white font-semibold py-2 px-4 rounded-md opacity-50 cursor-not-allowed">Pridajte
+                                vaše fotky</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center py-12">
+            <h3 class="text-2xl font-bold mb-4">Kontakty</h3>
+            <p class="mb-4">V prípade akýchkoľvek otázok sa, prosím, obráťte na novomanželov.</p>
+            <div class="text-gray-700">
+                <p><strong>Terka:</strong> +421 948 701 042 | tmdujavova@gmail.com</p>
+                <p><strong>Miro:</strong> +420 739 482 360 | miroslav.mikolaj@icloud.com</p>
+            </div>
+            <div class="w-24 h-px bg-gray-200 mx-auto my-8"></div>
+            <h2 class="text-4xl font-bold tracking-tight">Tešíme sa na vás!</h2>
+        </footer>
+    </div>
+
+    <script>
+        const WEDDING_DATE = '2025-09-19';
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const accordionButtons = document.querySelectorAll('.accordion-button');
+            accordionButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const content = button.nextElementSibling;
+                    button.classList.toggle('open');
+                    if (content.style.maxHeight) {
+                        content.style.maxHeight = null;
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + "px";
+                    }
+                });
+            });
+
+            function updateTimeline() {
+                const now = new Date();
+                const weddingDay = new Date(WEDDING_DATE);
+                const items = document.querySelectorAll('.timeline-item');
+                let isCurrentSet = false;
+
+                if (now.getDate() === weddingDay.getDate() && now.getMonth() === weddingDay.getMonth() && now.getFullYear() === weddingDay.getFullYear()) {
+                    items.forEach(item => {
+                        const timeString = item.getAttribute('data-time');
+                        if (!timeString) return;
+
+                        const [hours, minutes] = timeString.split(':').map(Number);
+                        const eventTime = new Date(weddingDay);
+                        eventTime.setHours(hours, minutes, 0, 0);
+
+                        if (now > eventTime) {
+                            item.classList.add('past');
+                            item.classList.remove('current');
+                        } else if (!isCurrentSet && now <= eventTime) {
+                            item.classList.add('current');
+                            item.classList.remove('past');
+                            isCurrentSet = true;
+                        } else {
+                            item.classList.remove('past', 'current');
+                        }
+                    });
+                } else {
+                     items.forEach(item => {
+                        item.classList.remove('past', 'current');
+                     });
+                }
+            }
+
+            updateTimeline();
+            setInterval(updateTimeline, 60000);
+
+        });
+    </script>
+
+</body>
+
+</html>
