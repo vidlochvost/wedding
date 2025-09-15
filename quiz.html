@@ -1,0 +1,176 @@
+    <main class="bg-white p-6 rounded-lg shadow-md">
+        <div id="quiz">
+            <div id="progress" class="mb-4 text-sm text-gray-600">Otázka <span id="currentIndex">1</span> z <span id="totalCount">10</span></div>
+
+            <div id="questionContainer" class="mb-6">
+                <!-- Question will be injected here -->
+            </div>
+
+            <div class="flex justify-between items-center">
+                <button id="prevBtn" class="px-4 py-2 rounded-md border border-gray-300 text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50" disabled>Späť</button>
+                <div class="flex items-center gap-3">
+                    <button id="nextBtn" class="px-4 py-2 rounded-md bg-accent text-white hover:opacity-90">Ďalej</button>
+                </div>
+            </div>
+
+            <div id="summary" class="mt-6 hidden">
+                <h2 class="text-2xl font-bold mb-4">Zhrnutie odpovedí</h2>
+                <ol id="summaryList" class="list-decimal list-inside text-gray-700"></ol>
+                <div class="mt-4">
+                    <button id="restartBtn" class="px-4 py-2 rounded-md bg-accent text-white hover:opacity-90">Spustiť znova</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="text-center mt-8 text-sm text-gray-600">
+        Toto je ukážková stránka kvízu. Odpovede sú uložené len lokálne v prehliadači.
+    </footer>
+</div>
+
+<script>
+    const QUESTIONS = [
+        { text: 'Question 1', options: ['Answer 1', 'Answer 2'] },
+        { text: 'Question 2', options: ['Answer 1', 'Answer 2'] },
+        { text: 'Question 3', options: ['Answer 1', 'Answer 2'] },
+        { text: 'Question 4', options: ['Answer 1', 'Answer 2'] },
+        { text: 'Question 5', options: ['Answer 1', 'Answer 2'] },
+        { text: 'Question 6', options: ['Answer 1', 'Answer 2'] },
+        { text: 'Question 7', options: ['Answer 1', 'Answer 2'] },
+        { text: 'Question 8', options: ['Answer 1', 'Answer 2'] },
+        { text: 'Question 9', options: ['Answer 1', 'Answer 2'] },
+        { text: 'Question 10', options: ['Answer 1', 'Answer 2'] }
+    ];
+
+    let current = 0;
+    const answers = new Array(QUESTIONS.length).fill(null);
+
+    const questionContainer = document.getElementById('questionContainer');
+    const currentIndexEl = document.getElementById('currentIndex');
+    const totalCountEl = document.getElementById('totalCount');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const summaryEl = document.getElementById('summary');
+    const summaryList = document.getElementById('summaryList');
+    const restartBtn = document.getElementById('restartBtn');
+
+    totalCountEl.textContent = QUESTIONS.length;
+
+    function renderQuestion(index) {
+        const q = QUESTIONS[index];
+        currentIndexEl.textContent = index + 1;
+        questionContainer.innerHTML = '';
+
+        const qTitle = document.createElement('h3');
+        qTitle.className = 'text-xl font-semibold mb-4';
+        qTitle.textContent = q.text;
+        questionContainer.appendChild(qTitle);
+
+        const form = document.createElement('form');
+        form.id = 'qform';
+
+        q.options.forEach((opt, i) => {
+            const id = `q-${index}-opt-${i}`;
+            const label = document.createElement('label');
+            label.className = 'flex items-center gap-3 p-3 border rounded-md mb-3 cursor-pointer hover:bg-gray-50';
+
+            const input = document.createElement('input');
+            input.type = 'radio';
+            input.name = 'option';
+            input.value = opt;
+            input.id = id;
+            input.className = 'form-radio';
+
+            if (answers[index] === opt) input.checked = true;
+
+            input.addEventListener('change', () => {
+                answers[index] = opt;
+                saveProgress();
+            });
+
+            const span = document.createElement('span');
+            span.textContent = opt;
+
+            label.appendChild(input);
+            label.appendChild(span);
+            form.appendChild(label);
+        });
+
+        questionContainer.appendChild(form);
+
+        prevBtn.disabled = index === 0;
+        nextBtn.textContent = index === QUESTIONS.length - 1 ? 'Dokončiť' : 'Ďalej';
+    }
+
+    function saveProgress() {
+        try {
+            localStorage.setItem('wedding_quiz_answers', JSON.stringify(answers));
+        } catch (e) { /* ignore */ }
+    }
+
+    function loadProgress() {
+        try {
+            const raw = localStorage.getItem('wedding_quiz_answers');
+            if (raw) {
+                const parsed = JSON.parse(raw);
+                if (Array.isArray(parsed) && parsed.length === QUESTIONS.length) {
+                    for (let i = 0; i < parsed.length; i++) answers[i] = parsed[i];
+                }
+            }
+        } catch (e) { /* ignore */ }
+    }
+
+    prevBtn.addEventListener('click', () => {
+        if (current > 0) {
+            current--;
+            renderQuestion(current);
+        }
+    });
+
+    nextBtn.addEventListener('click', () => {
+        const selected = answers[current];
+        if (!selected) {
+            // allow proceeding but show a quick warning
+            if (!confirm('Naozaj chcete pokračovať bez výberu odpovede?')) return;
+        }
+
+        if (current < QUESTIONS.length - 1) {
+            current++;
+            renderQuestion(current);
+        } else {
+            showSummary();
+        }
+    });
+
+    function showSummary() {
+        summaryList.innerHTML = '';
+        QUESTIONS.forEach((q, i) => {
+            const li = document.createElement('li');
+            li.className = 'mb-2';
+            li.textContent = `${q.text}: ${answers[i] ?? 'Bez odpovede'}`;
+            summaryList.appendChild(li);
+        });
+        summaryEl.classList.remove('hidden');
+        questionContainer.classList.add('hidden');
+        prevBtn.classList.add('hidden');
+        nextBtn.classList.add('hidden');
+        document.getElementById('progress').classList.add('hidden');
+        saveProgress();
+    }
+
+    restartBtn.addEventListener('click', () => {
+        for (let i = 0; i < answers.length; i++) answers[i] = null;
+        saveProgress();
+        summaryEl.classList.add('hidden');
+        questionContainer.classList.remove('hidden');
+        prevBtn.classList.remove('hidden');
+        nextBtn.classList.remove('hidden');
+        document.getElementById('progress').classList.remove('hidden');
+        current = 0;
+        renderQuestion(current);
+    });
+
+    // Initialize
+    loadProgress();
+    renderQuestion(current);
+</script>
