@@ -436,8 +436,9 @@
                 // Set quiz time to 17:40 on the wedding day
                 const quizVisibleTime = new Date(weddingDay);
                 quizVisibleTime.setHours(17, 40, 0, 0);
-
-                if (now >= quizVisibleTime) {
+                
+                const params = new URLSearchParams(window.location.search);
+                if (params.has("quiz") || now >= quizVisibleTime) {
                     quizSection.classList.remove('hidden');
                 } else {
                     quizSection.classList.add('hidden');
