@@ -475,15 +475,11 @@
                         const eventTime = new Date(weddingDay);
                         eventTime.setHours(hours, minutes, 0, 0);
 
-                        if (now > eventTime) {
-                            item.classList.add('past');
-                            item.classList.remove('current');
-                        } else if (!isCurrentSet && now <= eventTime) {
+                        if (!isCurrentSet && now <= eventTime) {
                             item.classList.add('current');
-                            item.classList.remove('past');
                             isCurrentSet = true;
                         } else {
-                            item.classList.remove('past', 'current');
+                            item.classList.remove('current');
                         }
                     });
                 } else {
